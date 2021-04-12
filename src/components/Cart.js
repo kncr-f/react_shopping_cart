@@ -1,9 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {connect} from "react-redux";
-import {removeFromCart} from "../actions/index";
-import {increase} from "../actions/index";
-import {decrease} from "../actions/index";
+import {removeFromCart,increase,decrease} from "../actions/index";
+
 
 const Cart = (props) => { 
 
