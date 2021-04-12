@@ -1,13 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import {BookContext} from "../App";
+import {connect} from "react-redux";
+import {addToCart} from "../actions/index";
 
 const Products = props => {
+  const totalCartCount=props.cart.reduce((total,item)=>(total=total+item.count),0)
 
-  const context= useContext(BookContext);
-  const totalCartCount=context.state.cart.reduce((total,item)=>
-  (total = total+ item.count),0);
- 
+
   return (
     <div>
       <h2> 
@@ -15,7 +14,7 @@ const Products = props => {
         <Link to="/cart">My Cart ({totalCartCount})</Link>
       </h2>
 
-      {context.state.bookList.map((book)=>(
+      {props.bookList.map((book)=>(
         <div key={book.id} className="book">
           <img
             src={book.image}
@@ -25,13 +24,18 @@ const Products = props => {
             <h4>{book.name}</h4>
             <p>Author: {book.author}</p>
             <p>Price: &#8378; {book.price}</p>
-            <button onClick={()=>context.addToCart(book)}>Add my cart </button>
+            <button  onClick={()=>props.addToCart(book)}>Add my cart </button>
           </div>
         </div>
-      ))}
+      ))} 
    
     </div>
   );
 };
-
-export default Products;
+const mapStateToProps=state=>{
+  return {
+    bookList:state.bookList,
+    cart: state.cart
+  }
+};
+export default connect(mapStateToProps,{addToCart})(Products);
